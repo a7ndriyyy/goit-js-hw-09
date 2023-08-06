@@ -1,6 +1,7 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
-import convertMs from './conversMs';
+// import convertMs from "./conversMs";
+
 import { Report } from 'notiflix';
 
 
@@ -17,6 +18,23 @@ const { inputEl, btnEl, seconds, minutes, hours, days } = refs;
 btnEl.disabled = true;
 btnEl.addEventListener('click', onStartClick, { once: true });
 
+let selectedDate;
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  minuteIncrement: 1,
+  defaultDate: new Date(),
+  onClose(selectedDates) {
+    selectedDate = selectedDates[0].getTime();
+    if (selectedDate <= Date.now()) {
+      Report.warning('Please choose a date in the future', '');
+    } else {
+      Report.success('Good! Click on start!', '', 'Okay');
+      btnEl.disabled = false;
+    }
+  },
+};
+
 function onStartClick(e) {
     inputEl.disabled = true;
     const timerId = setInterval(() => {
@@ -27,6 +45,12 @@ function onStartClick(e) {
       }
       timer(timeComponents);
     }, 1000);
+  }
+  function timer(components) {
+    days.textContent = addingZero(components.days);
+    hours.textContent = addingZero(components.hours);
+    minutes.textContent = addingZero(components.minutes);
+    seconds.textContent = addingZero(components.seconds);
   }
 
   flatpickr(inputEl, options);
