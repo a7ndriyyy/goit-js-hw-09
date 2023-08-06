@@ -23,9 +23,16 @@ function onSubmit(evt) {
 }
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
+  const promise = { position, delay };
+  return new Promise((res, rej) => {
+    setTimeout(() => {
   if (shouldResolve) {
     // Fulfill
+    res(promise);
   } else {
     // Reject
+    rej(promise);
   }
+}, delay);
+});
 }
