@@ -19,4 +19,13 @@ function onStopClick(){
     btnStopEl.disabled = true;
     clearInterval(timerId);
 }
-
+function onButtonActive() {
+    btnStartEl.disabled = true;
+    btnStopEl.disabled = false;
+  }
+  function getRandomHexColor() {
+    return `#${Math.floor(Math.random() * 16777215)
+      .toString(16)
+  
+      .padStart(6, 0)}`;
+  }
